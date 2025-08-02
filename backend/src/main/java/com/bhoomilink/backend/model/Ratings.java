@@ -24,7 +24,7 @@ public class Ratings {
     @Column(nullable = false)
     private String type;
     @Column(nullable = false)
-    private double rating;
+    private Double rating;
     @Column(nullable = false)
     private Long count;
 

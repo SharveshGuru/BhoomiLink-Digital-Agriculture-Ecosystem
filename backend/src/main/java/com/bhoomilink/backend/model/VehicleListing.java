@@ -25,9 +25,9 @@ public class VehicleListing {
     @Column(nullable = false)
     private String vehicleType;
     @Column(nullable = false)
-    private Long price;
+    private Double price;
     @Lob
-    private byte[] image;
+    private Byte[] image;
 
     
 }

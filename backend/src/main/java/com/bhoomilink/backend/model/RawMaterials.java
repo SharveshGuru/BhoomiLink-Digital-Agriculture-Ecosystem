@@ -27,9 +27,9 @@ public class RawMaterials {
     @Column(nullable = false)
     private String category;
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
     @Column(nullable = false)
-    private int price;
+    private Double price;
     @Lob
     private byte[] image;
 }

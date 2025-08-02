@@ -24,9 +24,9 @@ public class User {
     private String phonenumber;
     @Column(nullable = false)
     private String address;
-    private boolean isVehicleOwner=false;
-    private boolean isFarmer=false;
-    private boolean isWorker=false;
-    private boolean isMerchant=false;
+    private Boolean isVehicleOwner=false;
+    private Boolean isFarmer=false;
+    private Boolean isWorker=false;
+    private Boolean isMerchant=false;
     
 }

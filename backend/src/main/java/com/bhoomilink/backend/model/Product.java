@@ -25,9 +25,9 @@ public class Product {
     @JoinColumn(name="owner_id",nullable = false)
     private User owner;
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
     @Column(nullable = false)
-    private int price;
+    private Double price;
     @Lob
-    private byte[] image;
+    private Byte[] image;
 }

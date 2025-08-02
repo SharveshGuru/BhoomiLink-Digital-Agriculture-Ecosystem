@@ -28,5 +28,5 @@ public class RawMaterialOrders {
     @Column(nullable = false)
     private Long price;
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 }
