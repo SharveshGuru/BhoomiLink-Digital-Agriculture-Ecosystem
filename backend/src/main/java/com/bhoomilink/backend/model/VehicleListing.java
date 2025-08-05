@@ -9,10 +9,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="vehiclelisting")
 public class VehicleListing {
     
@@ -25,9 +29,9 @@ public class VehicleListing {
     @Column(nullable = false)
     private String vehicleType;
     @Column(nullable = false)
-    private Long price;
+    private Double price;
     @Lob
-    private byte[] image;
+    private Byte[] image;
 
     
 }
