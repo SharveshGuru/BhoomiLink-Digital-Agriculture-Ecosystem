@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white text-gray-800">
 
-      {/* Hero Section */}
       <section className="grid lg:grid-cols-2 px-6 py-12 gap-10 items-center">
         <div>
           <h2 className="text-4xl font-bold mb-4 leading-tight text-green-800">
@@ -44,7 +43,6 @@ export default function Home() {
         />
       </section>
 
-      {/* Features */}
       <section className="bg-white py-12 px-6">
         <h3 className="text-3xl font-bold text-center text-green-700 mb-10">Platform Highlights</h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
@@ -55,7 +53,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust & Support */}
       <section className="py-12 px-6 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-2xl font-semibold text-green-800 mb-4">

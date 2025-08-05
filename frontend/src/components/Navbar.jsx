@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { MdOutlineLanguage } from "react-icons/md";
 import { FaGlobeAmericas } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 export default function Navbar() {
   const [lang, setLang] = useState("English");
 
   return (
     <header className="flex justify-between items-center px-6 py-2 shadow-md bg-emerald-800">
-      <div className="flex items-center gap-2">
+      <Link to="/" className="flex items-center gap-2 cursor-pointer">
         <FaGlobeAmericas size={32} className="text-white" />
         <h1 className="text-2xl font-bold text-white">BhoomiLink</h1>
-      </div>
+      </Link>
 
       <div className="flex items-center gap-4">
         <MdOutlineLanguage size={24} className="text-white" />
