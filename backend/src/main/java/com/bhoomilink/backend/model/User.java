@@ -22,15 +22,20 @@ public class User {
     private Long id;
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false,unique = true)
+    private String username;
+    @Column(nullable = false)
+    private String password;
     @Column(unique = true,nullable = false)
     private String email;
     @Column(unique = true,nullable = false)
     private String phonenumber;
     @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
+    private String userType="ROLE_User";
     private Boolean isVehicleOwner=false;
     private Boolean isFarmer=false;
     private Boolean isWorker=false;
     private Boolean isMerchant=false;
-    
 }
