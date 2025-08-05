@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false)
     private String address;
     @Column(nullable = false)
-    private String userType="ROLE_User";
+    private String userType="User";
     private Boolean isVehicleOwner=false;
     private Boolean isFarmer=false;
     private Boolean isWorker=false;
