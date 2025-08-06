@@ -9,10 +9,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="raw_materials")
 public class RawMaterials {
     
@@ -27,9 +31,9 @@ public class RawMaterials {
     @Column(nullable = false)
     private String category;
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
     @Column(nullable = false)
-    private int price;
+    private Double price;
     @Lob
     private byte[] image;
 }

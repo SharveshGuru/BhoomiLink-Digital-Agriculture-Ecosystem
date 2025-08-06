@@ -5,13 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="productorders")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="product_orders")
 public class ProductOrder {
     
     @Id
@@ -20,13 +25,13 @@ public class ProductOrder {
     @Column(nullable = false)
     private String product;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name="seller_id",nullable = false)
     private User seller;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name="buyer_id",nullable = false)
     private User buyer;
     @Column(nullable = false)
     private Long price;
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 }
