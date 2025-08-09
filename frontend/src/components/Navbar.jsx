@@ -23,15 +23,22 @@ export default function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
-        
-
         {isLoggedIn && (
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded cursor-pointer"
-          >
-            Logout
-          </button>
+          <>
+            <Link
+              to="/profile"
+              className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
+            >
+              <span>Profile</span>
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded cursor-pointer"
+            >
+              Logout
+            </button>
+          </>
         )}
       </div>
     </header>

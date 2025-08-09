@@ -38,4 +38,25 @@ public class UserService {
         return "";
     }
 
+    public void updateUser(String username,User data){
+        User user=repo.findByUsername(username);
+        user.setName(data.getName());
+        user.setEmail(data.getEmail());
+        user.setPhonenumber(data.getPhonenumber());
+        user.setAddress(data.getAddress());
+        user.setUserType(data.getUserType());
+        user.setIsVehicleOwner(data.getIsVehicleOwner());
+        user.setIsFarmer(data.getIsFarmer());
+        user.setIsWorker(data.getIsWorker());
+        user.setIsMerchant(data.getIsMerchant());
+
+        repo.save(user);
+    }
+
+    public void changePassword(String username, String password){
+        User user=repo.findByUsername(username);
+        user.setPassword(pwdEncoder.encode(password));
+
+        repo.save(user);
+    }
 }
