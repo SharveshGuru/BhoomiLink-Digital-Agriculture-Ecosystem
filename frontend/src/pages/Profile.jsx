@@ -5,15 +5,21 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthContext";
 import Popup from "../components/Popup";
 import EditProfile from "../components/EditProfile";
+import ChangePassword from "../components/ChangePassword";
 
 export default function Profile() {
     const [user, setUser] = useState(null);
     const [edit,setEdit]=useState(false);
+    const [change,setChange]=useState(false);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
     function handleEdit(){
         setEdit(!edit);
+    }
+
+    function handleChange(){
+        setChange(!change);
     }
 
     const handleLogout = () => {
@@ -114,6 +120,11 @@ export default function Profile() {
             className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer">
                 Edit Profile
           </button>
+          <button 
+            onClick={handleChange}
+            className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer">
+                Change Password
+          </button>
           <button
             className="w-full sm:w-auto px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition cursor-pointer"
             onClick={handleLogout}
@@ -123,7 +134,11 @@ export default function Profile() {
         </div>
       </div>
         <Popup isOpen={edit} onClose={handleEdit}>
-            <EditProfile userData={user}></EditProfile>
+            <EditProfile userData={user} onClose={handleEdit}></EditProfile>
+        </Popup>
+
+        <Popup isOpen={change} onClose={handleChange}>
+            <ChangePassword username={localStorage.getItem("username")} onClose={handleChange}></ChangePassword>
         </Popup>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axiosInstance from "../api/Api";
 
-export default function EditProfile({ userData = {} }) {
+export default function EditProfile({ userData = {},onClose }) {
   const [formData, setFormData] = useState({
     name: userData.name || "",
     username: userData.username || "",
@@ -145,6 +145,14 @@ export default function EditProfile({ userData = {} }) {
           }`}
         >
           {isSubmitting ? "Saving..." : "Save Changes"}
+        </button>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-4 w-full border border-emerald-600 text-gray-700 py-2 rounded hover:bg-emerald-200 transition cursor-pointer"
+        >
+          Cancel
         </button>
 
         {successMessage && (

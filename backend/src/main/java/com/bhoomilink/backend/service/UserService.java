@@ -53,4 +53,10 @@ public class UserService {
         repo.save(user);
     }
 
+    public void changePassword(String username, String password){
+        User user=repo.findByUsername(username);
+        user.setPassword(pwdEncoder.encode(password));
+
+        repo.save(user);
+    }
 }

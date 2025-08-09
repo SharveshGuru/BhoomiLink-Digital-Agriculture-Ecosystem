@@ -25,4 +25,9 @@ public class UserController {
     public void updateUser(@PathVariable String username, @RequestBody User userDetails) {
         service.updateUser(username, userDetails);
     }
+
+    @PutMapping("/user/changepassword/{username}")
+    public void putMethodName(@PathVariable String username, @RequestBody String password) {
+        service.changePassword(username, password);
+    }
 }
