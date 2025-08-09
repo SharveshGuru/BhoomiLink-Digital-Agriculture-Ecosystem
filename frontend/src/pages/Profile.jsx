@@ -3,11 +3,18 @@ import axiosInstance from "../api/Api";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../AuthContext";
+import Popup from "../components/Popup";
+import EditProfile from "../components/EditProfile";
 
 export default function Profile() {
     const [user, setUser] = useState(null);
+    const [edit,setEdit]=useState(false);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    function handleEdit(){
+        setEdit(!edit);
+    }
 
     const handleLogout = () => {
         logout();
@@ -22,7 +29,7 @@ export default function Profile() {
       .get(`/user/${username}`)
       .then((response) => setUser(response.data))
       .catch((err) => console.error("Failed to load user:", err));
-  }, []);
+  }, [edit]);
 
   if (!user) return <div className="text-center py-10">Loading profile...</div>;
 
@@ -102,8 +109,10 @@ export default function Profile() {
 
         {/* Action Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <button className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer">
-            Edit Profile
+          <button 
+            onClick={handleEdit}
+            className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer">
+                Edit Profile
           </button>
           <button
             className="w-full sm:w-auto px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition cursor-pointer"
@@ -113,6 +122,9 @@ export default function Profile() {
           </button>
         </div>
       </div>
+        <Popup isOpen={edit} onClose={handleEdit}>
+            <EditProfile userData={user}></EditProfile>
+        </Popup>
     </div>
   );
 }
