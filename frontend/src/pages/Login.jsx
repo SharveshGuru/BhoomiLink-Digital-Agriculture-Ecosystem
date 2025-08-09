@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { loginUser } from "../api/authApi";
 import axiosInstance from "../api/Api";
+import { AuthContext } from "../AuthContext";
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (isSubmitting) return;
 
     try {
@@ -22,8 +24,6 @@ export default function Login() {
       setErrorMessage(""); 
 
       const response = await loginUser({ username, password });
-    
-      
       if (response === "Invalid Credentials") {
         setErrorMessage("Invalid username or password.");
         return;
@@ -32,14 +32,13 @@ export default function Login() {
       localStorage.setItem("token", response);
       localStorage.setItem("username", username);
 
-      await axiosInstance.get(`/user/${username}`).then((response)=>{
-        localStorage.setItem("isFarmer", response.data.isFarmer);
-        localStorage.setItem("isMerchant", response.data.isMerchant);
-        localStorage.setItem("isWorker", response.data.isWorker);
-        localStorage.setItem("isVehicleOwner", response.data.isVehicleOwner);
-        localStorage.setItem("isLoggedIn",true);
-      })
-      .catch((error)=>console.log(error));
+      await axiosInstance.get(`/user/${username}`).then((res) => {
+        localStorage.setItem("isFarmer", res.data.isFarmer);
+        localStorage.setItem("isMerchant", res.data.isMerchant);
+        localStorage.setItem("isWorker", res.data.isWorker);
+        localStorage.setItem("isVehicleOwner", res.data.isVehicleOwner);
+        login(); // ✅ update context
+      });
 
       navigate("/dashboard");
     } catch (error) {
@@ -48,7 +47,7 @@ export default function Login() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+};
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-emerald-50">
