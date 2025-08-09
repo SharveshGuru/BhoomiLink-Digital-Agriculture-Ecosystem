@@ -19,23 +19,32 @@ export default function Home() {
           <p className="text-lg mb-6 max-w-xl">
             Sell produce directly, hire workers, rent farming equipment, and get expert guidance — all in one trusted platform.
           </p>
-          <div className="flex gap-4 mt-4">
+          {localStorage.getItem('isLoggedIn') === 'true' ? (
             <button
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/dashboard")}
               className="bg-green-600 hover:bg-green-700 text-white text-lg px-6 py-2 rounded-xl shadow-md transition-all duration-300 flex items-center gap-2 cursor-pointer"
             >
-              <FaUserFriends />
-              Register
+              Go To Dashboard
             </button>
+          ) : (
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={() => navigate("/register")}
+                className="bg-green-600 hover:bg-green-700 text-white text-lg px-6 py-2 rounded-xl shadow-md transition-all duration-300 flex items-center gap-2 cursor-pointer"
+              >
+                <FaUserFriends />
+                Register
+              </button>
 
-            <button
-              onClick={() => navigate("/login")}
-              className="border border-green-600 text-green-700 hover:bg-green-100 text-lg px-6 py-2 rounded-xl shadow-sm transition-all duration-300 flex items-center gap-2 cursor-pointer"
-            >
-              <FaShoppingBasket />
-              Login
-            </button>
-          </div>
+              <button
+                onClick={() => navigate("/login")}
+                className="border border-green-600 text-green-700 hover:bg-green-100 text-lg px-6 py-2 rounded-xl shadow-sm transition-all duration-300 flex items-center gap-2 cursor-pointer"
+              >
+                <FaShoppingBasket />
+                Login
+              </button>
+            </div>
+          )}
         </div>
         <img
           src={image}
