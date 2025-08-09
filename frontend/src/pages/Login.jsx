@@ -19,7 +19,7 @@ export default function Login() {
 
     try {
       setIsSubmitting(true);
-      setErrorMessage(""); // clear previous errors
+      setErrorMessage(""); 
 
       const response = await loginUser({ username, password });
     
@@ -32,12 +32,12 @@ export default function Login() {
       localStorage.setItem("token", response);
       localStorage.setItem("username", username);
 
-      const userDetails = await axiosInstance.get(`/user/${username}`).then((response)=>{
+      await axiosInstance.get(`/user/${username}`).then((response)=>{
         localStorage.setItem("isFarmer", response.data.isFarmer);
         localStorage.setItem("isMerchant", response.data.isMerchant);
         localStorage.setItem("isWorker", response.data.isWorker);
         localStorage.setItem("isVehicleOwner", response.data.isVehicleOwner);
-        // console.log(localStorage.isFarmer);
+        localStorage.setItem("isLoggedIn",true);
       })
       .catch((error)=>console.log(error));
 
