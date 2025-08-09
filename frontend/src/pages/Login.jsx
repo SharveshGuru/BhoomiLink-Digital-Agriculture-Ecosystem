@@ -37,7 +37,7 @@ export default function Login() {
         localStorage.setItem("isMerchant", res.data.isMerchant);
         localStorage.setItem("isWorker", res.data.isWorker);
         localStorage.setItem("isVehicleOwner", res.data.isVehicleOwner);
-        login(); // ✅ update context
+        login();
       });
 
       navigate("/dashboard");
