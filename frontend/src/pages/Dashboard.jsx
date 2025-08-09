@@ -1,5 +1,5 @@
 import FeatureCard from "../components/FeatureCard";
-import { FaTractor, FaShoppingBasket } from "react-icons/fa";
+import { FaTractor, FaShoppingBasket, FaUser} from "react-icons/fa";
 import { GiFarmer } from 'react-icons/gi';
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,7 @@ export default function Dashboard(){
                     {localStorage.getItem('isFarmer') === 'true'? <div onClick={() => navigate("/hiring")} className="cursor-pointer"><FeatureCard icon={<GiFarmer size={28} />} title="Workforce Hiring" desc="Connect with local agricultural labourers easily." /></div>:<></>}          
                     {/* {localStorage.getItem('isFarmer') === 'true'? <FeatureCard icon={<FaSeedling size={28} />} title="Crop Guidance" desc="Receive expert advice and weather-based suggestions." />:<></>} */}
                     {localStorage.getItem('isFarmer') === 'true'? <div onClick={() => navigate("/rawmaterials")} className="cursor-pointer"><FeatureCard icon={<FaShoppingBasket size={28} />} title="Raw Materials" desc="Buy and Sell Raw Materials from the shops." /></div>:<></>}
+                    <div onClick={() => navigate("/profile")} className="cursor-pointer"><FeatureCard icon={<FaUser size={28} />} title="Profile" desc="View and update your profile." /></div>         
                 </div>
             </section>
         </div>
