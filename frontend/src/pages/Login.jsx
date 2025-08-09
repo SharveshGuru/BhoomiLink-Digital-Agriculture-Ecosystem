@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { loginUser } from "../api/authApi";
-
+import axiosInstance from "../api/Api";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +19,11 @@ export default function Login() {
 
     try {
       setIsSubmitting(true);
-      setErrorMessage(""); // clear previous errors
+      setErrorMessage(""); 
 
       const response = await loginUser({ username, password });
-
+    
+      
       if (response === "Invalid Credentials") {
         setErrorMessage("Invalid username or password.");
         return;
@@ -30,6 +31,15 @@ export default function Login() {
 
       localStorage.setItem("token", response);
       localStorage.setItem("username", username);
+
+      await axiosInstance.get(`/user/${username}`).then((response)=>{
+        localStorage.setItem("isFarmer", response.data.isFarmer);
+        localStorage.setItem("isMerchant", response.data.isMerchant);
+        localStorage.setItem("isWorker", response.data.isWorker);
+        localStorage.setItem("isVehicleOwner", response.data.isVehicleOwner);
+        localStorage.setItem("isLoggedIn",true);
+      })
+      .catch((error)=>console.log(error));
 
       navigate("/dashboard");
     } catch (error) {

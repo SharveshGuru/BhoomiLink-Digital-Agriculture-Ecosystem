@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FaTractor, FaSeedling, FaUserFriends, FaShoppingBasket } from "react-icons/fa";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import homepage from '../assets/homepage.svg';
+import image from '../assets/image.png';
 import FeatureCard from "../components/FeatureCard";
 
 export default function Home() {
@@ -37,13 +38,13 @@ export default function Home() {
           </div>
         </div>
         <img
-          src={homepage}
+          src={image}
           alt="Farmer using app"
           className="w-full max-h-[400px] object-contain"
         />
       </section>
 
-      <section className="bg-white py-12 px-6">
+      {/* <section className="bg-white py-12 px-6">
         <h3 className="text-3xl font-bold text-center text-green-700 mb-10">Platform Highlights</h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           <FeatureCard icon={<FaShoppingBasket size={28} />} title="Direct Market" desc="Sell your produce directly to buyers, cutting out middlemen." />
@@ -51,7 +52,7 @@ export default function Home() {
           <FeatureCard icon={<FaUserFriends size={28} />} title="Hire Workers" desc="Connect with local agricultural laborers easily." />
           <FeatureCard icon={<FaSeedling size={28} />} title="Crop Guidance" desc="Receive expert advice and weather-based suggestions." />
         </div>
-      </section>
+      </section> */}
 
       <section className="py-12 px-6 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">
