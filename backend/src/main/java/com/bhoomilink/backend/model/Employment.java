@@ -31,7 +31,7 @@ public class Employment {
     @JoinColumn(name="employee_id",nullable = false)
     private User employee;
     @Column(nullable = false)
-    private LocalDateTime start;
+    private LocalDateTime beginDate;
     @Column(nullable = false)
-    private LocalDateTime end;
+    private LocalDateTime finishDate;
 }

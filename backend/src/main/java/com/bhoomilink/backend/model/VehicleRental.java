@@ -30,7 +30,7 @@ public class VehicleRental {
     @JoinColumn(name="borrower_id",nullable = false)
     private User borrower;
     @Column(nullable = false)
-    private LocalDateTime start;
+    private LocalDateTime beginDate;
     @Column(nullable = false)
-    private LocalDateTime end;
+    private LocalDateTime finishDate;
 }
