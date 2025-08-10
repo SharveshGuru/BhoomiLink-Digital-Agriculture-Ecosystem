@@ -16,7 +16,7 @@ public interface EmploymentRepository extends JpaRepository<Employment,Long>, Jp
      
     List<Employment> findByEmployee(User employee);
     List<Employment> findByRequester(User requester);
-    List<Employment> findByEnd(LocalDateTime end);
-    List<Employment> findByStart(LocalDateTime start);
+    List<Employment> findByBeginDate(LocalDateTime begin);
+    List<Employment> findByFinishDate(LocalDateTime end);
     
 }

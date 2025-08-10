@@ -17,6 +17,6 @@ public interface VehicleRentalRepository extends JpaRepository<VehicleRental,Lon
 
     List<VehicleRental> findByVehicle(VehicleListing vehicle);
     List<VehicleRental> findByBorrower(User borrower);
-    List<VehicleRental> findByEnd(LocalDateTime end);
-    List<VehicleRental> findByStart(LocalDateTime start);
+    List<VehicleRental> findByFinishDate(LocalDateTime finishDate);
+    List<VehicleRental> findByBeginDate(LocalDateTime beginDate);
 }
