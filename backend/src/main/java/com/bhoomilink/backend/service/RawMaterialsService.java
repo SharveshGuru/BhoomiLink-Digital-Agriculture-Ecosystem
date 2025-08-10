@@ -50,4 +50,30 @@ public class RawMaterialsService {
         return response;
     }
 
+    @Transactional(readOnly = true)
+    public Map<String,Object> getRawMaterialsByOwner(int page, String owner){
+        Pageable pageable=PageRequest.of(page,10);
+        Page<RawMaterials> rawmaterials =repo.findByOwnerUsername(owner, pageable);
+        Map<String, Object> response=new HashMap<>();
+        response.put("total", rawmaterials.getTotalPages());
+        response.put("current", page);
+        response.put("limit", rawmaterials.getSize());
+        response.put("data", rawmaterials.getContent());
+        return response;
+    }
+
+    @Transactional
+    public void deleteRawMaterial(Long id) {
+        repo.deleteById(id);
+    }
+
+    @Transactional
+    public void updateRawMaterial(RawMaterials material) {
+        repo.save(material);
+    }
+
+    @Transactional(readOnly = true)
+    public RawMaterials getRawMaterialById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
 }
