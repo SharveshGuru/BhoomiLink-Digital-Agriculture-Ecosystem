@@ -9,6 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
 import RawMaterials from "./pages/RawMaterials";
+import ManageRawMaterials from "./pages/ManageRawMaterials";
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/rawmaterials" element={<RawMaterials />} />
+                <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
               </Route>
             </Routes>
           </main>

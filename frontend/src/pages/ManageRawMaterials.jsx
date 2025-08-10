@@ -1,33 +1,30 @@
 import { useState, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight, FaImage } from "react-icons/fa";
+import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight, FaImage } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
 import axiosInstance from "../api/Api";
 import Popup from "../components/Popup";
 import AddRawMaterial from "../components/AddRawMaterial";
-import { useNavigate } from "react-router-dom";
+import EditRawMaterial from "../components/EditRawMaterial";
 
-export default function RawMaterials() {
+export default function ManageRawMaterials() {
   const [rawMaterials, setRawMaterials] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [shouldRefresh, setShouldRefresh] = useState(false);
-
-  const navigate=useNavigate();
 
   useEffect(() => {
     fetchRawMaterials(currentPage);
   }, [currentPage, shouldRefresh]);
 
-  const handlePopupToggle = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
-
   const fetchRawMaterials = async (page) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(`/rawmaterials/available?page=${page - 1}`);
+      const username = localStorage.getItem("username");
+      const response = await axiosInstance.get(`/rawmaterials/${username}?page=${page - 1}`);
       const data = response.data;
       setRawMaterials(data.data);
       setTotalPages(data.total);
@@ -36,6 +33,23 @@ export default function RawMaterials() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDelete = async (materialId) => {
+    if (window.confirm("Are you sure you want to delete this material?")) {
+      try {
+        await axiosInstance.delete(`/rawmaterials/${materialId}`);
+        setShouldRefresh(prev => !prev);
+      } catch (error) {
+        console.error("Error deleting material:", error);
+        alert("Failed to delete material");
+      }
+    }
+  };
+
+  const handleEdit = (material) => {
+    setSelectedMaterial(material);
+    setIsEditPopupOpen(true);
   };
 
   const handlePrevious = () => {
@@ -50,36 +64,20 @@ export default function RawMaterials() {
     }
   };
 
-  const handleOrder = (materialId) => {
-    console.log(`Order placed for material ID: ${materialId}`);
-    alert("Order functionality will be implemented soon!");
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white text-gray-800 py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Improved header section with better mobile responsiveness */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-800 text-center sm:text-left w-full sm:w-auto">
-            Raw Materials Marketplace
+            Manage Your Raw Materials
           </h2>
           
-          {localStorage.getItem("isMerchant") === "true" && (
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
-              <button
-                onClick={handlePopupToggle}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
-              >
-                Add New Material
-              </button>
-              <button
-                onClick={()=>navigate("/rawmaterials/manage")}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
-              >
-                Manage
-              </button>
-            </div>
-          )}
+          <button
+            onClick={() => setIsAddPopupOpen(true)}
+            className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+          >
+            Add New Material
+          </button>
         </div>
 
         {loading ? (
@@ -89,8 +87,8 @@ export default function RawMaterials() {
         ) : rawMaterials.length === 0 ? (
           <div className="text-center py-12">
             <FiPackage className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-lg font-medium text-gray-900">No raw materials available</h3>
-            <p className="mt-1 text-gray-500">Check back later or add new materials if you're a supplier.</p>
+            <h3 className="mt-2 text-lg font-medium text-gray-900">No raw materials added yet</h3>
+            <p className="mt-1 text-gray-500">Add your first raw material to get started.</p>
           </div>
         ) : (
           <>
@@ -124,23 +122,26 @@ export default function RawMaterials() {
                         {material.quantity > 0 ? `${material.quantity} available` : "Out of stock"}
                       </span>
                     </div>
-                    <button
-                      onClick={() => handleOrder(material.id)}
-                      disabled={material.quantity <= 0}
-                      className={`w-full py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${
-                        material.quantity > 0
-                          ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      }`}
-                    >
-                      {material.quantity > 0 ? "Order Now" : "Out of Stock"}
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEdit(material)}
+                        className="w-full py-1.5 sm:py-2 rounded-lg text-sm sm:text-base bg-emerald-600 hover:bg-emerald-700 text-white font-semibold flex items-center justify-center gap-1 cursor-pointer"
+                      >
+                        <FaEdit className="h-3 w-3" /> Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(material.id)}
+                        className="w-full py-1.5 sm:py-2 rounded-lg text-sm sm:text-base bg-red-600 hover:bg-red-700 text-white flex items-center justify-center gap-1 cursor-pointer"
+                      >
+                        <FaTrash className="h-3 w-3" /> Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Pagination - unchanged from original */}
+            {/* Pagination */}
             <div className="flex items-center justify-between mt-6 sm:mt-8 px-3 sm:px-4 py-2 sm:py-3 bg-white rounded-lg shadow-sm">
               <div className="flex-1 flex justify-between sm:hidden">
                 <button
@@ -226,14 +227,27 @@ export default function RawMaterials() {
         )}
       </div>
 
-      <Popup isOpen={isPopupOpen} onClose={handlePopupToggle}>
+      <Popup isOpen={isAddPopupOpen} onClose={() => setIsAddPopupOpen(false)}>
         <AddRawMaterial
           onAdd={() => {
-            setShouldRefresh((prev) => !prev); 
-            setIsPopupOpen(false); 
+            setShouldRefresh(prev => !prev);
+            setIsAddPopupOpen(false);
           }}
-          onCancel={handlePopupToggle}
+          onCancel={() => setIsAddPopupOpen(false)}
         />
+      </Popup>
+
+      <Popup isOpen={isEditPopupOpen} onClose={() => setIsEditPopupOpen(false)}>
+        {selectedMaterial && (
+          <EditRawMaterial
+            material={selectedMaterial}
+            onUpdate={() => {
+              setShouldRefresh(prev => !prev);
+              setIsEditPopupOpen(false);
+            }}
+            onCancel={() => setIsEditPopupOpen(false)}
+          />
+        )}
       </Popup>
     </div>
   );
