@@ -120,7 +120,7 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price (₹)</label>
+            <label className="block text-sm font-medium text-gray-700">Price/unit (₹)</label>
             <input
               type="number"
               name="price"
