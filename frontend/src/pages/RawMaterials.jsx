@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaShoppingBasket, FaChevronLeft, FaChevronRight, FaImage } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
 import axiosInstance from "../api/Api";
+import Popup from "../components/Popup";
+import AddRawMaterial from "../components/AddRawMaterial";
 
 export default function RawMaterials() {
-  const navigate = useNavigate();
   const [rawMaterials, setRawMaterials] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-
+  const [add,setAdd]=useState(false);
   useEffect(() => {
     fetchRawMaterials(currentPage);
-  }, [currentPage]);
+  }, [currentPage,add]);
 
-
+function handleAdd(){
+    setAdd(!add);
+}
 const fetchRawMaterials = async (page) => {
     try {
         setLoading(true);
@@ -57,7 +59,7 @@ const fetchRawMaterials = async (page) => {
           <h2 className="text-3xl font-bold text-green-800">Raw Materials Marketplace</h2>
           {localStorage.getItem('isMerchant') === 'true' && (
             <button
-              onClick={() => navigate("/rawmaterials/add")}
+              onClick={handleAdd}
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer"
             >
               Add New Material
@@ -106,7 +108,7 @@ const fetchRawMaterials = async (page) => {
                     <button
                       onClick={() => handleOrder(material.id)}
                       disabled={material.quantity <= 0}
-                      className={`w-full py-2 rounded-lg ${material.quantity > 0 ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                      className={`w-full py-2 rounded-lg ${material.quantity > 0 ? 'bg-green-600 hover:bg-green-700 text-white cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
                     >
                       {material.quantity > 0 ? 'Order Now' : 'Out of Stock'}
                     </button>
@@ -182,6 +184,9 @@ const fetchRawMaterials = async (page) => {
           </>
         )}
       </div>
+      <Popup isOpen={add} onClose={handleAdd}>
+        <AddRawMaterial onAdd={setAdd} onCancel={handleAdd}/>
+      </Popup>
     </div>
   );
 }

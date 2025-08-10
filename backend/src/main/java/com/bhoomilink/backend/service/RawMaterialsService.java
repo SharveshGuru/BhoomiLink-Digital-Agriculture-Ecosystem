@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bhoomilink.backend.model.RawMaterials;
 import com.bhoomilink.backend.repository.RawMaterialsRepository;
@@ -22,10 +23,10 @@ public class RawMaterialsService {
     UserRepository userRepo;
 
     public void addRawMaterial(RawMaterials data){
-        data.setOwner(userRepo.findByUsername(data.getOwner().getUsername()));
         repo.save(data);
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Object> getAllRawMaterials(int page){
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterials> rawmaterials = repo.findAll(pageable);
@@ -37,6 +38,7 @@ public class RawMaterialsService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Object> getAvailableRawMaterials(int page){
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterials> rawmaterials =repo.findByQuantityGreaterThan(0,pageable);
