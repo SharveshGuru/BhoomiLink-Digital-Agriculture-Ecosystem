@@ -72,6 +72,13 @@ public class RawMaterialsService {
         repo.save(material);
     }
 
+    @Transactional
+    public void updateQuantity(Long id, int quantity){
+        RawMaterials material=repo.findById(id).orElse(null);
+        material.setQuantity(material.getQuantity()-quantity);
+        repo.save(material);
+    }
+
     @Transactional(readOnly = true)
     public RawMaterials getRawMaterialById(Long id) {
         return repo.findById(id).orElse(null);

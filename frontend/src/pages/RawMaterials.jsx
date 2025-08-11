@@ -5,6 +5,7 @@ import axiosInstance from "../api/Api";
 import Popup from "../components/Popup";
 import AddRawMaterial from "../components/AddRawMaterial";
 import { useNavigate } from "react-router-dom";
+import OrderRawMaterial from "../components/OrderRawMaterial";
 
 export default function RawMaterials() {
   const [rawMaterials, setRawMaterials] = useState([]);
@@ -13,6 +14,7 @@ export default function RawMaterials() {
   const [loading, setLoading] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [shouldRefresh, setShouldRefresh] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const navigate=useNavigate();
 
@@ -50,9 +52,8 @@ export default function RawMaterials() {
     }
   };
 
-  const handleOrder = (materialId) => {
-    console.log(`Order placed for material ID: ${materialId}`);
-    alert("Order functionality will be implemented soon!");
+  const handleOrder = (material) => {
+    setSelectedProduct(material); 
   };
 
   return (
@@ -77,6 +78,12 @@ export default function RawMaterials() {
                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
               >
                 Manage
+              </button>
+              <button
+                onClick={() => navigate("/rawmaterials/orders")}
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+              >
+                View Orders
               </button>
             </div>
           )}
@@ -125,7 +132,7 @@ export default function RawMaterials() {
                       </span>
                     </div>
                     <button
-                      onClick={() => handleOrder(material.id)}
+                      onClick={() => handleOrder(material)}
                       disabled={material.quantity <= 0}
                       className={`w-full py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${
                         material.quantity > 0
@@ -233,6 +240,19 @@ export default function RawMaterials() {
             setIsPopupOpen(false); 
           }}
           onCancel={handlePopupToggle}
+        />
+      </Popup>
+
+      <Popup 
+        isOpen={!!selectedProduct} // true when a product is selected
+        onClose={() => setSelectedProduct(null)}
+      >
+        <OrderRawMaterial
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onOrderPlaced={() => {
+            fetchRawMaterials(currentPage);
+          }}
         />
       </Popup>
     </div>
