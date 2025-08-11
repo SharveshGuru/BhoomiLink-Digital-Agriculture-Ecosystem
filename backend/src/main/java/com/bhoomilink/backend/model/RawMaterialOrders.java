@@ -1,5 +1,7 @@
 package com.bhoomilink.backend.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +24,9 @@ public class RawMaterialOrders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String product;
+    @ManyToOne
+    @JoinColumn(name="raw_materials_id",nullable = false)
+    private RawMaterials rawMaterials;
     @ManyToOne
     @JoinColumn(name="seller_id",nullable = false)
     private User seller;
@@ -31,7 +34,9 @@ public class RawMaterialOrders {
     @JoinColumn(name="buyer_id",nullable = false)
     private User buyer;
     @Column(nullable = false)
-    private Long price;
+    private Double price;
     @Column(nullable = false)
     private Integer quantity;
+    @Column(nullable = false)
+    private LocalDateTime orderDate;
 }
