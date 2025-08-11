@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiImage } from "react-icons/fi";
-import axiosInstance from "../api/Api"; // adjust the path as needed
+import imageCompression from "browser-image-compression";
+import axiosInstance from "../api/Api"; // adjust the path
 
 const AddRawMaterial = ({ onAdd, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
 
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false); // NEW
 
   const categories = [
     "fertilizers", "pesticides", "seeds", "tools", "irrigation", "organic", "other"
@@ -27,15 +29,31 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
     });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-      setFormData({ ...formData, image: file });
+      setIsCompressing(true);
+      try {
+        const options = {
+          maxSizeMB: 0.05, 
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+          setIsCompressing(false);
+        };
+        reader.readAsDataURL(compressedFile);
+
+        setFormData({ ...formData, image: compressedFile });
+      } catch (error) {
+        console.error("Error compressing the image:", error);
+        setFormData({ ...formData, image: file });
+        setIsCompressing(false);
+      }
     }
   };
 
@@ -49,7 +67,7 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
       formDataToSend.append("category", formData.category);
       formDataToSend.append("quantity", parseInt(formData.quantity, 10) || 0);
       formDataToSend.append("price", parseFloat(formData.price) || 0);
-      formDataToSend.append("owner.username", formData.owner.username); // flat key for Spring
+      formDataToSend.append("owner.username", formData.owner.username);
       if (formData.image) {
         formDataToSend.append("image", formData.image);
       }
@@ -58,8 +76,7 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      // Since controller returns void, we can just refresh the list
-      onAdd(); 
+      onAdd();
     } catch (error) {
       console.error("Error adding raw material:", error);
       alert("Failed to add raw material. Please try again.");
@@ -139,7 +156,12 @@ const AddRawMaterial = ({ onAdd, onCancel }) => {
           <label className="block text-sm font-medium text-gray-700">Image</label>
           <div className="flex items-center gap-4">
             <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-              {imagePreview ? (
+              {isCompressing ? (
+                <div className="flex justify-center items-center h-full">
+                  {/* REUSED LOADING SPINNER */}
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-600"></div>
+                </div>
+              ) : imagePreview ? (
                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
               ) : (
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">

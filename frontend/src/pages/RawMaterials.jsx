@@ -65,28 +65,32 @@ export default function RawMaterials() {
             Raw Materials Marketplace
           </h2>
           
-          {localStorage.getItem("isMerchant") === "true" && (
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
-              <button
-                onClick={handlePopupToggle}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
-              >
-                Add New Material
-              </button>
-              <button
-                onClick={()=>navigate("/rawmaterials/manage")}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
-              >
-                Manage
-              </button>
-              <button
-                onClick={() => navigate("/rawmaterials/orders")}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
-              >
-                View Orders
-              </button>
-            </div>
-          )}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+            {localStorage.getItem("isMerchant") === "true" && (
+              <>
+                <button
+                  onClick={handlePopupToggle}
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+                >
+                  Add New Material
+                </button>
+                <button
+                  onClick={() => navigate("/rawmaterials/manage")}
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+                >
+                  Manage
+                </button>
+              </>
+            )}
+            
+            <button
+              onClick={() => navigate("/rawmaterials/orders")}
+              className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+            >
+              View Orders
+            </button>
+          </div>
+
         </div>
 
         {loading ? (
