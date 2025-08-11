@@ -5,9 +5,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import VehicleListings from "./pages/VehicleListing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
+import ManageVehicles from "./pages/ManageVechicle";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/vehiclelisting" element={<VehicleListings/>}/>
+                <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
               </Route>
             </Routes>
           </main>
