@@ -33,7 +33,7 @@ const ViewDetail = ({ vehicle, onClose }) => {
           </button>
           <button
             onClick={onClose}
-            className="bg-green-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
           >
             Rent
           </button>
