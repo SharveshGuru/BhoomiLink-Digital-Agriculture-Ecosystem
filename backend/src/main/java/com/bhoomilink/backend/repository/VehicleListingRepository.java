@@ -1,5 +1,7 @@
 package com.bhoomilink.backend.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -13,5 +15,6 @@ import java.util.List;
 public interface VehicleListingRepository extends JpaRepository<VehicleListing,Long>, JpaSpecificationExecutor<VehicleListing> {
 
     List<VehicleListing> findByVehicleType(String vehicleType);
-    List<VehicleListing> findByOwner(User owner);
+    Page<VehicleListing> findByOwnerUsername(String username,Pageable pageable);
+    Page<VehicleListing> findByIsAvailable(Boolean isAvailable, Pageable pageable);
 }

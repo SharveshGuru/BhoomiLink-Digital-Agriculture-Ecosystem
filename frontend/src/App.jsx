@@ -5,9 +5,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import VehicleListings from "./pages/VehicleListing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
+import ManageVehicles from "./pages/ManageVechicle";
 import RawMaterials from "./pages/RawMaterials";
 import ManageRawMaterials from "./pages/ManageRawMaterials";
 import RawMaterialsOrders from "./pages/RawMaterialsOrders";
@@ -27,6 +29,8 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/vehiclelisting" element={<VehicleListings/>}/>
+                <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
                 <Route path="/rawmaterials" element={<RawMaterials />} />
                 <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
                 <Route path="/rawmaterials/orders" element={<RawMaterialsOrders />} />

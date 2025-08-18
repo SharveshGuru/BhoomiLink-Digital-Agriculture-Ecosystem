@@ -1,7 +1,9 @@
 package com.bhoomilink.backend.model;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,8 +32,11 @@ public class VehicleListing {
     private String vehicleType;
     @Column(nullable = false)
     private Double price;
+    @Column(nullable=false)
+    private Boolean isAvailable=true;
     @Lob
-    private Byte[] image;
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
 
     
 }
