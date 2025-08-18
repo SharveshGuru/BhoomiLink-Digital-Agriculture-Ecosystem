@@ -10,6 +10,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
 import ManageVehicles from "./pages/ManageVechicle";
+import RawMaterials from "./pages/RawMaterials";
+import ManageRawMaterials from "./pages/ManageRawMaterials";
+import RawMaterialsOrders from "./pages/RawMaterialsOrders";
+
 
 function App() {
   return (
@@ -27,6 +31,9 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/vehiclelisting" element={<VehicleListings/>}/>
                 <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
+                <Route path="/rawmaterials" element={<RawMaterials />} />
+                <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
+                <Route path="/rawmaterials/orders" element={<RawMaterialsOrders />} />
               </Route>
             </Routes>
           </main>
