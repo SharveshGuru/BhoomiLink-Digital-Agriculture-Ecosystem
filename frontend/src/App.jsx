@@ -13,6 +13,9 @@ import ManageVehicles from "./pages/ManageVechicle";
 import RawMaterials from "./pages/RawMaterials";
 import ManageRawMaterials from "./pages/ManageRawMaterials";
 import RawMaterialsOrders from "./pages/RawMaterialsOrders";
+import Products from "./pages/Products";
+import ManageProducts from "./pages/ManageProducts";
+import ProductOrder from "./pages/ProductOrder";
 
 
 function App() {
@@ -33,7 +36,10 @@ function App() {
                 <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
                 <Route path="/rawmaterials" element={<RawMaterials />} />
                 <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
+                <Route path="/marketplace" element={<Products />} />
+                <Route path="/marketplace/manage" element={<ManageProducts />} />
                 <Route path="/rawmaterials/orders" element={<RawMaterialsOrders />} />
+                <Route path="/product/orders" element={<ProductOrder/>} />
               </Route>
             </Routes>
           </main>
