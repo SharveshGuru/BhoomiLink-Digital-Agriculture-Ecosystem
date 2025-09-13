@@ -15,7 +15,7 @@ export default function Products() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
+  const username=localStorage.getItem("username");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,14 +31,23 @@ export default function Products() {
       setLoading(true);
       const response = await axiosInstance.get(`/products/available?page=${page - 1}`);
       const data = response.data;
-      setProducts(data.data);
+
+      const loggedInUsername = localStorage.getItem("username");
+
+      const filteredProducts = data.data.filter(
+        (product) => product.owner?.username !== loggedInUsername
+      );
+
+      setProducts(filteredProducts);
       setTotalPages(data.total);
+      console.log("Filtered Products:", filteredProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
   };
+
 
   const handlePrevious = () => {
     if (currentPage > 1) {
