@@ -77,7 +77,7 @@ const OrderProduct = ({ product, onClose, onOrderPlaced }) => {
             </p>
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700"
+              className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 cursor-pointer"
             >
               Close
             </button>
@@ -130,14 +130,14 @@ const OrderProduct = ({ product, onClose, onOrderPlaced }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 border border-green-600 rounded-md bg-white text-gray-700 hover:bg-green-100"
+                  className="px-4 py-2 border border-green-600 rounded-md bg-white text-gray-700 hover:bg-green-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || error !== ""}
-                  className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                  className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? "Placing..." : "Place Order"}
                 </button>

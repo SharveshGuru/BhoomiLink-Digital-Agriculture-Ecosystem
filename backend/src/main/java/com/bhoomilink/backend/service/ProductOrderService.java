@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bhoomilink.backend.model.ProductOrder;
 import com.bhoomilink.backend.repository.ProductOrderRepository;
@@ -21,6 +22,7 @@ public class ProductOrderService {
         repo.save(order);
     }
 
+    @Transactional
     public Map<String,Object> getAllOrders(int page){
         Pageable pageable=PageRequest.of(page,10);
         Page<ProductOrder> orders=repo.findAll(pageable);
@@ -32,6 +34,7 @@ public class ProductOrderService {
         return response;
     }
 
+    @Transactional
     public Map<String,Object> getOrdersByBuyer(int page,String buyer){
         Pageable pageable=PageRequest.of(page,10);
         Page<ProductOrder> orders=repo.findByBuyerUsername(buyer,pageable);
@@ -42,7 +45,8 @@ public class ProductOrderService {
         response.put("data", orders.getContent());
         return response;
     }
-
+    
+    @Transactional
     public Map<String,Object> getOrdersBySeller(int page,String seller){
         Pageable pageable=PageRequest.of(page,10);
         Page<ProductOrder> orders=repo.findBySellerUsername(seller,pageable);
