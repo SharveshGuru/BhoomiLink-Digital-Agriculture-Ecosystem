@@ -1,4 +1,3 @@
-// src/components/ViewDetail.jsx
 import React from 'react';
 
 const ViewDetail = ({ vehicle, onClose }) => {
@@ -20,7 +19,6 @@ const ViewDetail = ({ vehicle, onClose }) => {
         </div>
 
         <p className="text-sm text-gray-700"><strong>Price:</strong> ₹{vehicle.price.toFixed(2)}</p>
-        <p className="text-sm text-gray-700"><strong>Capacity:</strong> {vehicle.capacity} people</p>
         <p className="text-sm text-gray-700"><strong>Status:</strong> Available</p>
         <p className="text-sm text-gray-700"><strong>Description:</strong> {vehicle.description || 'No description available'}</p>
         

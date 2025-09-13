@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"; 
-import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight, FaCar, FaImage } from "react-icons/fa";
+import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight, FaTractor, FaImage } from "react-icons/fa";
 import axiosInstance from "../api/Api";
 import Popup from "../components/Popup";
 import AddVehicle from "../components/AddVehicle";
@@ -80,10 +80,10 @@ export default function ManageVehicles() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-800 text-center sm:text-left w-full sm:w-auto">
-            Manage Your Vehicles
+            Manage Your Equipments
           </h2>
           <button
-            onClick={handleAddPopupToggle}  // Toggle Add Vehicle Popup
+            onClick={handleAddPopupToggle}  
             className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
           >
             Add New Vehicle
@@ -96,7 +96,7 @@ export default function ManageVehicles() {
           </div>
         ) : vehicles.length === 0 ? (
           <div className="text-center py-12">
-            <FaCar className="mx-auto h-12 w-12 text-gray-400" />
+            <FaTractor className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-lg font-medium text-gray-900">No vehicles added yet</h3>
             <p className="mt-1 text-gray-500">Add your first vehicle to get started.</p>
           </div>
