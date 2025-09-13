@@ -36,7 +36,14 @@ export default function VehicleListing() {
       setLoading(true);
       const response = await axiosInstance.get(`/vehiclelisting/available?page=${page - 1}`);
       const data = response.data;
-      setVehicles(data.data || []);
+
+      const loggedInUser = localStorage.getItem("username"); // Get logged-in user's username
+
+      const filteredVehicles = (data.data || []).filter(
+        (vehicle) => vehicle.owner?.username !== loggedInUser
+      );
+
+      setVehicles(filteredVehicles);
       setTotalPages(data.total || 1);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
