@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bhoomilink.backend.model.RawMaterialOrders;
 import com.bhoomilink.backend.repository.RawMaterialOrdersRepository;
@@ -21,6 +22,7 @@ public class RawMaterialsOrdersService {
         repo.save(order);
     }
 
+    @Transactional
     public Map<String,Object> getAllOrders(int page){
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterialOrders> orders=repo.findAll(pageable);
@@ -32,8 +34,10 @@ public class RawMaterialsOrdersService {
         return response;
     }
 
+    @Transactional
     public Map<String,Object> getOrdersByBuyer(int page,String buyer){
         Pageable pageable=PageRequest.of(page,10);
+        System.out.println("\n\n\n\n\n\nBuyer:"+buyer);
         Page<RawMaterialOrders> orders=repo.findByBuyerUsername(buyer,pageable);
         Map<String,Object> response=new HashMap<>();
         response.put("total", orders.getTotalPages());
@@ -43,6 +47,7 @@ public class RawMaterialsOrdersService {
         return response;
     }
 
+    @Transactional
     public Map<String,Object> getOrdersBySeller(int page,String seller){
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterialOrders> orders=repo.findBySellerUsername(seller,pageable);
