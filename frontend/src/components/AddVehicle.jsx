@@ -7,7 +7,7 @@ export default function AddVehicle({ onAdd, onCancel }) {
   const [formData, setFormData] = useState({
     vehicleType: "",
     price: "",
-    description: "", // ✅ NEW
+    description: "",
     image: null,
     username: localStorage.getItem("username"),
   });
@@ -81,8 +81,8 @@ export default function AddVehicle({ onAdd, onCancel }) {
 
       onAdd();
     } catch (error) {
-      console.error("Error adding vehicle:", error);
-      setErrorMsg("Failed to add vehicle. Please try again.");
+      // console.error("Error adding vehicle:", error);
+      setErrorMsg("Failed to add equipment. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -99,7 +99,7 @@ export default function AddVehicle({ onAdd, onCancel }) {
           {/* Vehicle Type */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Vehicle Type
+              Equipment Type
             </label>
             <input
               type="text"
@@ -149,7 +149,7 @@ export default function AddVehicle({ onAdd, onCancel }) {
         {/* Image Upload */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">
-            Vehicle Image (optional)
+            Equipment Image (optional)
           </label>
           <div className="flex items-center gap-4">
             <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
@@ -177,7 +177,7 @@ export default function AddVehicle({ onAdd, onCancel }) {
               />
             </label>
             <p className="text-sm text-gray-500">
-              Optional: Upload a vehicle image
+              Optional: Upload a equipment image
             </p>
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function AddVehicle({ onAdd, onCancel }) {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md text-sm text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 cursor-pointer"
           >
-            {isSubmitting ? "Adding..." : "Add Vehicle"}
+            {isSubmitting ? "Adding..." : "Add Equipment"}
           </button>
         </div>
       </form>

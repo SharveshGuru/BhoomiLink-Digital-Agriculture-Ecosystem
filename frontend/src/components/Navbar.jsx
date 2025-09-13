@@ -43,6 +43,14 @@ export default function Navbar() {
         >
 
           <Link
+            to="/equipments"
+            className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <span>Equipment Rental</span>
+          </Link>
+
+          <Link
             to="/marketplace"
             className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
             onClick={() => setIsMenuOpen(false)}

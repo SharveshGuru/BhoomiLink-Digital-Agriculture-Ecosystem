@@ -32,8 +32,8 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/vehiclelisting" element={<VehicleListings/>}/>
-                <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
+                <Route path="/equipments" element={<VehicleListings/>}/>
+                <Route path="/equipments/manage" element={<ManageVehicles/>} />
                 <Route path="/rawmaterials" element={<RawMaterials />} />
                 <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
                 <Route path="/marketplace" element={<Products />} />

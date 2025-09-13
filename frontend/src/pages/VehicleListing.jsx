@@ -81,7 +81,7 @@ export default function VehicleListing() {
               )}
               {localStorage.getItem('isVehicleOwner') === 'true' ? (
                 <button
-                  onClick={() => navigate("/vehiclelisting/manage")}
+                  onClick={() => navigate("/equipments/manage")}
                   className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
                 >
                   Manage

@@ -7,6 +7,7 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
     vehicleType: vehicle.vehicleType || "",
     price: vehicle.price || "",
     isAvailable: vehicle.isAvailable ?? true,
+    description: vehicle.description || "",
     image: null
   });
 
@@ -15,9 +16,8 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
 
   useEffect(() => {
     if (vehicle.imageUrl) {
-      setImagePreview(vehicle.imageUrl); // backend should return a URL if image exists
+      setImagePreview(vehicle.imageUrl);
     }
-    // console.log(vehicle);
   }, [vehicle]);
 
   const handleChange = (e) => {
@@ -49,6 +49,7 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
     formDataToSend.append("vehicleType", formData.vehicleType);
     formDataToSend.append("price", formData.price.toString());
     formDataToSend.append("isAvailable", formData.isAvailable);
+    formDataToSend.append("description", formData.description);
     if (formData.image) {
       formDataToSend.append("image", formData.image);
     }
@@ -61,35 +62,35 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
       });
       onEditSuccess();
     } catch (error) {
-      console.error("Error updating vehicle:", error);
-      alert("Failed to update vehicle");
+      // console.error("Error updating vehicle:", error);
+      alert("Failed to update equipment");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-green-800">Edit Vehicle</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Vehicle Type (free text) */}
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 bg-white shadow-md rounded-lg space-y-6">
+      <h2 className="text-2xl font-bold text-green-800 text-center">Edit Equipment</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Grid Inputs */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Vehicle Type</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Equipment Type</label>
             <input
               type="text"
               name="vehicleType"
               value={formData.vehicleType}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
               placeholder="e.g., Tractor, Harvester"
               required
             />
           </div>
 
-          {/* Price */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price (₹)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
             <input
               type="number"
               name="price"
@@ -97,34 +98,48 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
               step="0.01"
               value={formData.price}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
+        </div>
 
-          {/* Availability */}
-          <div className="flex items-center space-x-2 mt-2">
-            <input
-              type="checkbox"
-              name="isAvailable"
-              checked={formData.isAvailable}
-              onChange={handleChange}
-            />
-            <label className="text-sm text-gray-700">Available for Rent</label>
-          </div>
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Description (optional)</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Enter a short description"
+            rows="3"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+          />
+        </div>
+
+        {/* Availability */}
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            name="isAvailable"
+            checked={formData.isAvailable}
+            onChange={handleChange}
+            className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+          />
+          <label className="text-sm text-gray-700">Available for Rent</label>
         </div>
 
         {/* Image Upload */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Vehicle Image</label>
-          <div className="flex items-center gap-4">
-            <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Equipment Image</label>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <label className="relative flex items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 overflow-hidden">
               {imagePreview ? (
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
+                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               ) : (
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <FiImage className="w-8 h-8 text-gray-400" />
-                  <p className="text-xs text-gray-500">Upload Image</p>
+                <div className="flex flex-col items-center justify-center text-gray-400">
+                  <FiImage className="w-8 h-8" />
+                  <span className="text-xs">Upload Image</span>
                 </div>
               )}
               <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
@@ -138,7 +153,7 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 border border-emerald-600 rounded-md text-sm text-gray-700 bg-white hover:bg-emerald-200 transition cursor-pointer"
+            className="px-4 py-2 border border-emerald-600 rounded-md text-sm text-emerald-700 bg-white hover:bg-emerald-50 transition cursor-pointer"
             disabled={loading}
           >
             Cancel
@@ -146,9 +161,9 @@ export default function EditVehicle({ vehicle, onEditSuccess, onCancel }) {
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 rounded-md text-sm text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 cursor-pointer"
+            className="px-4 py-2 rounded-md text-sm text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 transition cursor-pointer"
           >
-            {loading ? "Updating..." : "Update Vehicle"}
+            {loading ? "Updating..." : "Update Equipment"}
           </button>
         </div>
       </form>
