@@ -15,7 +15,7 @@ export default function RawMaterials() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
+  const username = localStorage.getItem("username");
   const navigate=useNavigate();
 
   useEffect(() => {
@@ -31,14 +31,21 @@ export default function RawMaterials() {
       setLoading(true);
       const response = await axiosInstance.get(`/rawmaterials/available?page=${page - 1}`);
       const data = response.data;
-      setRawMaterials(data.data);
-      setTotalPages(data.total);
+
+      const filteredData = data.data.filter(
+        (material) => material.owner.username !== username 
+      );
+
+      setRawMaterials(filteredData);
+      setTotalPages(data.total); 
+      console.log(filteredData);
     } catch (error) {
       console.error("Error fetching raw materials:", error);
     } finally {
       setLoading(false);
     }
   };
+
 
   const handlePrevious = () => {
     if (currentPage > 1) {
