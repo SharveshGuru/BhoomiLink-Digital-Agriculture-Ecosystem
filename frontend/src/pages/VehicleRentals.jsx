@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { FiPackage } from "react-icons/fi";
+import { FaChevronLeft, FaChevronRight, FaTractor } from "react-icons/fa";
 import axiosInstance from "../api/Api";
 
 export default function VehicleRentals() {
@@ -119,7 +118,7 @@ export default function VehicleRentals() {
         <thead className="bg-green-100">
           <tr>
             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
-              Vehicle
+              Equipment
             </th>
             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
               {isGiven ? "Borrower" : "Owner"}
@@ -184,9 +183,9 @@ export default function VehicleRentals() {
           </div>
         ) : borrowedRentals.length === 0 ? (
           <div className="text-center py-12">
-            <FiPackage className="mx-auto h-12 w-12 text-gray-400" />
+            <FaTractor className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-lg font-medium text-gray-900">
-              You have not rented any vehicles.
+              You have not rented any equipments.
             </h3>
           </div>
         ) : (
@@ -218,9 +217,9 @@ export default function VehicleRentals() {
               </div>
             ) : givenRentals.length === 0 ? (
               <div className="text-center py-12">
-                <FiPackage className="mx-auto h-12 w-12 text-gray-400" />
+                <FaTractor className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-lg font-medium text-gray-900">
-                  None of your vehicles are rented out currently.
+                  None of your equipments are rented out currently.
                 </h3>
               </div>
             ) : (
