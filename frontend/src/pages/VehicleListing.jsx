@@ -245,7 +245,11 @@ export default function VehicleListing() {
       {/* View Vehicle Details Popup */}
       <Popup isOpen={isDetailPopupOpen} onClose={handleDetailPopupToggle}>
         {selectedVehicle && (
-          <ViewDetail vehicle={selectedVehicle} onClose={handleDetailPopupToggle} />
+          <ViewDetail 
+            vehicle={selectedVehicle} 
+            onClose={handleDetailPopupToggle}
+            onRentSuccess={() => setShouldRefresh(prev => !prev)} 
+          />
         )}
       </Popup>
     </div>
