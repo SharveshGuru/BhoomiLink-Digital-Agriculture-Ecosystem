@@ -9,7 +9,7 @@ import VehicleListings from "./pages/VehicleListing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
-import ManageVehicles from "./pages/ManageVechicle";
+import ManageVehicles from "./pages/ManageVehicles";
 import RawMaterials from "./pages/RawMaterials";
 import ManageRawMaterials from "./pages/ManageRawMaterials";
 import RawMaterialsOrders from "./pages/RawMaterialsOrders";
