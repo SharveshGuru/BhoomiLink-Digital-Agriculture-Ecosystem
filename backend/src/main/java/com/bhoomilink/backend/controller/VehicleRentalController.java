@@ -29,12 +29,12 @@ public class VehicleRentalController {
         return service.getAllVechicleRentals(page);
     }
     
-    @GetMapping("/owner/{username}")
+    @GetMapping("/owner/{owner}")
     public Map<String,Object> getRentalsByOwner(@RequestParam(defaultValue = "1") int page,@PathVariable String owner){
         return service.getByOwner(owner, page);
     }
 
-    @GetMapping("/borrower/{username}")
+    @GetMapping("/borrower/{borrower}")
     public Map<String,Object> getRentalsByBorrower(@RequestParam(defaultValue = "1") int page,@PathVariable String borrower){
         return service.getByBorrower(borrower, page);
     }

@@ -16,6 +16,7 @@ import RawMaterialsOrders from "./pages/RawMaterialsOrders";
 import Products from "./pages/Products";
 import ManageProducts from "./pages/ManageProducts";
 import ProductOrders from "./pages/ProductOrders";
+import VehicleRentals from "./pages/VehicleRentals";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/marketplace/manage" element={<ManageProducts />} />
                 <Route path="/rawmaterials/orders" element={<RawMaterialsOrders />} />
                 <Route path="/product/orders" element={<ProductOrders/>} />
+                <Route path="/equipmentrentals" element={<VehicleRentals />}/>
               </Route>
             </Routes>
           </main>
