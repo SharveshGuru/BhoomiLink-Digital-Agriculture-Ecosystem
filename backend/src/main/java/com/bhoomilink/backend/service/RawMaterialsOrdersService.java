@@ -27,6 +27,12 @@ public class RawMaterialsOrdersService {
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterialOrders> orders=repo.findAll(pageable);
         Map<String,Object> response=new HashMap<>();
+
+        orders.getContent().forEach(order->{
+            if(order.getRawMaterials()!=null){
+                order.getRawMaterials().setImage(null);
+            }
+        });
         response.put("total", orders.getTotalPages());
         response.put("current", page);
         response.put("limit", orders.getSize());
@@ -39,6 +45,11 @@ public class RawMaterialsOrdersService {
         Pageable pageable=PageRequest.of(page,10);
         System.out.println("\n\n\n\n\n\nBuyer:"+buyer);
         Page<RawMaterialOrders> orders=repo.findByBuyerUsername(buyer,pageable);
+        orders.getContent().forEach(order->{
+            if(order.getRawMaterials()!=null){
+                order.getRawMaterials().setImage(null);
+            }
+        });
         Map<String,Object> response=new HashMap<>();
         response.put("total", orders.getTotalPages());
         response.put("current", page);
@@ -51,6 +62,11 @@ public class RawMaterialsOrdersService {
     public Map<String,Object> getOrdersBySeller(int page,String seller){
         Pageable pageable=PageRequest.of(page,10);
         Page<RawMaterialOrders> orders=repo.findBySellerUsername(seller,pageable);
+        orders.getContent().forEach(order->{
+            if(order.getRawMaterials()!=null){
+                order.getRawMaterials().setImage(null);
+            }
+        });
         Map<String,Object> response=new HashMap<>();
         response.put("total", orders.getTotalPages());
         response.put("current", page);

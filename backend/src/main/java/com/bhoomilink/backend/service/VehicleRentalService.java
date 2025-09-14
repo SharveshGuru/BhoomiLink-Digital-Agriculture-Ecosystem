@@ -43,6 +43,13 @@ public class VehicleRentalService {
         Pageable pageable=PageRequest.of(page,10);
         Page<VehicleRental> vehicleRental=repo.findAll(pageable);
         Map<String, Object> response=new HashMap<>();
+        
+        vehicleRental.getContent().forEach(rental -> {
+            if (rental.getVehicle() != null) {
+                rental.getVehicle().setImage(null);
+            }
+        });
+
         response.put("total", vehicleRental.getTotalPages());
         response.put("current", page);
         response.put("limit", vehicleRental.getSize());
@@ -55,6 +62,11 @@ public class VehicleRentalService {
         Pageable pageable=PageRequest.of(page,10);
         Page<VehicleRental> vehicleRental=repo.findByBorrowerUsername(borrower,pageable);
         Map<String, Object> response=new HashMap<>();
+        vehicleRental.getContent().forEach(rental -> {
+            if (rental.getVehicle() != null) {
+                rental.getVehicle().setImage(null);
+            }
+        });
         response.put("total", vehicleRental.getTotalPages());
         response.put("current", page);
         response.put("limit", vehicleRental.getSize());
@@ -67,6 +79,11 @@ public class VehicleRentalService {
         Pageable pageable=PageRequest.of(page,10);
         Page<VehicleRental> vehicleRental=repo.findByVehicleOwnerUsername(owner,pageable);
         Map<String, Object> response=new HashMap<>();
+        vehicleRental.getContent().forEach(rental -> {
+            if (rental.getVehicle() != null) {
+                rental.getVehicle().setImage(null);
+            }
+        });
         response.put("total", vehicleRental.getTotalPages());
         response.put("current", page);
         response.put("limit", vehicleRental.getSize());
