@@ -34,6 +34,7 @@ public class VehicleListing {
     private Double price;
     @Column(nullable=false)
     private Boolean isAvailable=true;
+    private String description;
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;

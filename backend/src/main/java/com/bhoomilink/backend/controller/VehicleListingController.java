@@ -17,7 +17,6 @@ import com.bhoomilink.backend.model.VehicleListing;
 import com.bhoomilink.backend.repository.UserRepository;
 import com.bhoomilink.backend.service.VehicleListingService;
 
-import jakarta.persistence.Column;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,11 +52,13 @@ public class VehicleListingController {
         @RequestParam("username") String username,
         @RequestParam("vehicleType") String vehicleType,
         @RequestParam("price") double price,
+        @RequestParam(value = "description", required = false) String description,
         @RequestParam(value = "image", required = false) MultipartFile image
     ) {
         VehicleListing vehicle = new VehicleListing();
         vehicle.setVehicleType(vehicleType);
         vehicle.setPrice(price);
+        vehicle.setDescription(description); // ✅ NEW
         vehicle.setOwner(userRepo.findByUsername(username));
 
         try {
@@ -70,6 +71,7 @@ public class VehicleListingController {
 
         service.addVehicleListing(vehicle);
     }
+
     @DeleteMapping("/{id}")
     public void deleteVehicleListing(@PathVariable Long id){
         service.deleteVehicleListing(id);

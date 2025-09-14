@@ -9,13 +9,14 @@ import VehicleListings from "./pages/VehicleListing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import Profile from "./pages/Profile";
-import ManageVehicles from "./pages/ManageVechicle";
+import ManageVehicles from "./pages/ManageVehicles";
 import RawMaterials from "./pages/RawMaterials";
 import ManageRawMaterials from "./pages/ManageRawMaterials";
 import RawMaterialsOrders from "./pages/RawMaterialsOrders";
 import Products from "./pages/Products";
 import ManageProducts from "./pages/ManageProducts";
 import ProductOrders from "./pages/ProductOrders";
+import VehicleRentals from "./pages/VehicleRentals";
 
 
 function App() {
@@ -32,14 +33,15 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/vehiclelisting" element={<VehicleListings/>}/>
-                <Route path="/vehiclelisting/manage" element={<ManageVehicles/>} />
+                <Route path="/equipments" element={<VehicleListings/>}/>
+                <Route path="/equipments/manage" element={<ManageVehicles/>} />
                 <Route path="/rawmaterials" element={<RawMaterials />} />
                 <Route path="/rawmaterials/manage" element={<ManageRawMaterials />} />
                 <Route path="/marketplace" element={<Products />} />
                 <Route path="/marketplace/manage" element={<ManageProducts />} />
                 <Route path="/rawmaterials/orders" element={<RawMaterialsOrders />} />
                 <Route path="/product/orders" element={<ProductOrders/>} />
+                <Route path="/equipmentrentals" element={<VehicleRentals />}/>
               </Route>
             </Routes>
           </main>

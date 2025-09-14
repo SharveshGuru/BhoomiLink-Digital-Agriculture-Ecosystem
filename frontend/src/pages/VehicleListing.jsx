@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight, FaImage } from "react-icons/fa";
-import { FiPackage } from "react-icons/fi";
+import { FaChevronLeft, FaChevronRight, FaImage, FaTractor } from "react-icons/fa";
 import axiosInstance from "../api/Api";
 import Popup from "../components/Popup";
 import AddVehicle from "../components/AddVehicle";
@@ -37,7 +36,14 @@ export default function VehicleListing() {
       setLoading(true);
       const response = await axiosInstance.get(`/vehiclelisting/available?page=${page - 1}`);
       const data = response.data;
-      setVehicles(data.data || []);
+
+      const loggedInUser = localStorage.getItem("username"); // Get logged-in user's username
+
+      const filteredVehicles = (data.data || []).filter(
+        (vehicle) => vehicle.owner?.username !== loggedInUser
+      );
+
+      setVehicles(filteredVehicles);
       setTotalPages(data.total || 1);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
@@ -60,7 +66,7 @@ export default function VehicleListing() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-800 text-center sm:text-left w-full sm:w-auto">
-            Vehicle Rental
+            Equipment Rental
           </h2>
           {(localStorage.getItem("isVehicleOwner") === "true" || localStorage.getItem("isFarmer") === "true") && (
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
@@ -68,14 +74,14 @@ export default function VehicleListing() {
                 onClick={handlePopupToggle}
                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
               >
-                Add New Vehicle
+                Add New Equipment
               </button>
                ) : (
                 <></>
               )}
               {localStorage.getItem('isVehicleOwner') === 'true' ? (
                 <button
-                  onClick={() => navigate("/vehiclelisting/manage")}
+                  onClick={() => navigate("/equipments/manage")}
                   className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
                 >
                   Manage
@@ -83,6 +89,13 @@ export default function VehicleListing() {
               ) : (
                 <></>
               )}
+              <button
+                onClick={() => navigate("/equipmentrentals")}
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+              >
+                View Rentals
+              </button>
+
             </div>
           )}
         </div>
@@ -94,9 +107,9 @@ export default function VehicleListing() {
           </div>
         ) : vehicles.length === 0 ? (
           <div className="text-center py-12">
-            <FiPackage className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-lg font-medium text-gray-900">No vehicles available</h3>
-            <p className="mt-1 text-gray-500">Check back later or add your vehicle listing.</p>
+            <FaTractor className="mx-auto h-12 w-12 text-gray-400" />
+            <h3 className="mt-2 text-lg font-medium text-gray-900">No equipments available</h3>
+            <p className="mt-1 text-gray-500">Check back later or add your equipment</p>
           </div>
         ) : (
           <>
@@ -239,7 +252,11 @@ export default function VehicleListing() {
       {/* View Vehicle Details Popup */}
       <Popup isOpen={isDetailPopupOpen} onClose={handleDetailPopupToggle}>
         {selectedVehicle && (
-          <ViewDetail vehicle={selectedVehicle} onClose={handleDetailPopupToggle} />
+          <ViewDetail 
+            vehicle={selectedVehicle} 
+            onClose={handleDetailPopupToggle}
+            onRentSuccess={() => setShouldRefresh(prev => !prev)} 
+          />
         )}
       </Popup>
     </div>

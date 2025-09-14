@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bhoomilink.backend.model.RawMaterials;
 import com.bhoomilink.backend.model.VehicleListing;
 import com.bhoomilink.backend.repository.UserRepository;
 import com.bhoomilink.backend.repository.VehicleListingRepository;
