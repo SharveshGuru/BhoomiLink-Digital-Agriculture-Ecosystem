@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bhoomilink.backend.model.VehicleListing;
 import com.bhoomilink.backend.model.VehicleRental;
 import com.bhoomilink.backend.repository.UserRepository;
 import com.bhoomilink.backend.repository.VehicleListingRepository;
@@ -30,7 +31,10 @@ public class VehicleRentalService {
     @Transactional
     public void addVehicleRental(VehicleRental data){
         data.setBorrower(userRepo.findByUsername(data.getBorrower().getUsername()));
-        data.setVehicle(vehicleListingRepo.findById(data.getVehicle().getId()).orElse(null));
+        VehicleListing listing=vehicleListingRepo.findById(data.getVehicle().getId()).orElse(null);
+        listing.setIsAvailable(false);
+        data.setVehicle(listing);
+        vehicleListingRepo.save(listing);
         repo.save(data);
     }
 
