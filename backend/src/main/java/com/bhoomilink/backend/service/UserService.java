@@ -1,8 +1,13 @@
 package com.bhoomilink.backend.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,4 +64,26 @@ public class UserService {
 
         repo.save(user);
     }
+
+    public Map<String,Object> getAllWorkers(int page){
+        Pageable pageable=PageRequest.of(page,10);
+        Page<User> workers=repo.findByIsWorkerTrue(pageable);
+        Map<String, Object> response=new HashMap<>();
+        response.put("total", workers.getTotalPages());
+        response.put("current", page);
+        response.put("limit", workers.getSize());
+        response.put("data", workers.getContent());
+        return response;
+    }
+
+    public Map<String,Object> getAvailableWorkers(int page){
+        Pageable pageable=PageRequest.of(page,10);
+        Page<User> workers=repo.findByIsWorkerTrueAndIsAvailableTrue(pageable);
+        Map<String, Object> response=new HashMap<>();
+        response.put("total", workers.getTotalPages());
+        response.put("current", page);
+        response.put("limit", workers.getSize());
+        response.put("data", workers.getContent());
+        return response;
+    } 
 }
