@@ -42,13 +42,6 @@ export default function Navbar() {
           } md:flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0`}
         >
 
-          <Link
-            to="/equipments"
-            className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <span>Equipment Rental</span>
-          </Link>
 
           <Link
             to="/marketplace"
@@ -58,12 +51,31 @@ export default function Navbar() {
             <span>Marketplace</span>
           </Link>
 
+
+          <Link
+            to="/equipments"
+            className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <span>Equipment Rental</span>
+          </Link>
+
+          
+
           <Link
             to="/rawmaterials"
             className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
             onClick={() => setIsMenuOpen(false)}
           >
             <span>Raw Materials</span>
+          </Link>
+
+          <Link
+            to="/hiring"
+            className="flex items-center gap-1 text-white hover:text-emerald-200 transition"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <span>Employment</span>
           </Link>
 
           <Link

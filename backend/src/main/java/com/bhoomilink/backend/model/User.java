@@ -38,4 +38,5 @@ public class User {
     private Boolean isFarmer=false;
     private Boolean isWorker=false;
     private Boolean isMerchant=false;
+    private Boolean isAvailable=true;
 }
