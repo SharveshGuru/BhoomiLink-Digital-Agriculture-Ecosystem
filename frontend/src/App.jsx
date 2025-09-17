@@ -18,6 +18,7 @@ import ManageProducts from "./pages/ManageProducts";
 import ProductOrders from "./pages/ProductOrders";
 import VehicleRentals from "./pages/VehicleRentals";
 import WorkerListing from "./pages/WorkerListing";
+import Employments from "./pages/Employment";
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/product/orders" element={<ProductOrders/>} />
                 <Route path="/equipmentrentals" element={<VehicleRentals />}/>
                 <Route path="/hiring" element={<WorkerListing />}/>
+                <Route path="/employments" element={<Employments />}/>
               </Route>
             </Routes>
           </main>

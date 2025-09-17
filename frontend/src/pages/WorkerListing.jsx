@@ -2,23 +2,39 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../api/Api";
 import { FaChevronLeft, FaChevronRight, FaUsers } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import Popup from "../components/Popup";
+import HireWorker from "../components/HireWorker";
 
 export default function WorkerListing() {
   const [workers, setWorkers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [isHirePopupOpen, setIsHirePopupOpen] = useState(false);
+  const [selectedWorker, setSelectedWorker] = useState(null);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+
+  const navigate = useNavigate();
+  const isFarmer = localStorage.getItem("isFarmer") === "true";
+  const isWorker = localStorage.getItem("isWorker") === "true";
 
   useEffect(() => {
     fetchWorkers(currentPage);
-  }, [currentPage]);
+  }, [currentPage, shouldRefresh]);
 
   const fetchWorkers = async (page) => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(`/workers?page=${page - 1}`);
       const data = response.data;
-      setWorkers(data.data || []);
+      const loggedInUser = localStorage.getItem("username");
+      // Filter out the logged-in user from workers list
+      const filteredWorkers = (data.data || []).filter(
+        (worker) => worker.username !== loggedInUser
+      );
+      
+      setWorkers(filteredWorkers);
       setTotalPages(data.total || 1);
     } catch (error) {
       console.error("Error fetching workers:", error);
@@ -27,15 +43,9 @@ export default function WorkerListing() {
     }
   };
 
-  const handleHire = async (worker) => {
-    try {
-      await axiosInstance.post(`/hire/${worker.username}`);
-      alert(`You have successfully hired ${worker.name}`);
-      fetchWorkers(currentPage);
-    } catch (error) {
-      console.error("Error hiring worker:", error);
-      alert("Failed to hire worker. Please try again.");
-    }
+  const handleHirePopupToggle = (worker = null) => {
+    setSelectedWorker(worker);
+    setIsHirePopupOpen(!isHirePopupOpen);
   };
 
   const handlePrevious = () => {
@@ -47,13 +57,25 @@ export default function WorkerListing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white text-gray-800 py-6 sm:py-8 px-4 sm:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white text-gray-800 py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-800 flex items-center gap-2">
-            Workforce Hiring
+            Worker Listing
           </h2>
+          
+          {/* Navigation Buttons */}
+          {(isFarmer || isWorker) && (
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+              <button
+                onClick={() => navigate("/employments")}
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer text-sm sm:text-base"
+              >
+                View Employments
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Loading / Empty State */}
@@ -63,7 +85,7 @@ export default function WorkerListing() {
           </div>
         ) : workers.length === 0 ? (
           <div className="text-center py-12">
-            <FiPackage className="mx-auto h-12 w-12 text-gray-400" />
+            <FaUsers className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-lg font-medium text-gray-900">
               No workers available
             </h3>
@@ -88,6 +110,9 @@ export default function WorkerListing() {
                     <th className="px-4 py-3 text-left text-sm font-semibold text-green-900">
                       Address
                     </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-green-900">
+                      Status
+                    </th>
                     <th className="px-4 py-3 text-center text-sm font-semibold text-green-900">
                       Action
                     </th>
@@ -111,12 +136,26 @@ export default function WorkerListing() {
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                         {worker.address}
                       </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          worker.isAvailable 
+                            ? "bg-green-100 text-green-800" 
+                            : "bg-red-100 text-red-800"
+                        }`}>
+                          {worker.isAvailable ? "Available" : "Hired"}
+                        </span>
+                      </td>
                       <td className="px-4 py-3 text-center">
                         <button
-                          onClick={() => handleHire(worker)}
-                          className="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow transition-all duration-300"
+                          onClick={() => handleHirePopupToggle(worker)}
+                          disabled={!isFarmer || !worker.isAvailable} 
+                          className={`px-3 py-1.5 text-xs font-semibold rounded-lg shadow transition-all duration-300 ${
+                            isFarmer && worker.isAvailable
+                              ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+                              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          }`}
                         >
-                          Hire
+                          {worker.isAvailable ? "Hire" : "Not Available"}
                         </button>
                       </td>
                     </tr>
@@ -164,7 +203,7 @@ export default function WorkerListing() {
                     className={`px-3 py-1.5 rounded-l-md border border-gray-300 text-sm font-medium ${
                       currentPage === 1
                         ? "bg-gray-100 text-gray-400"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        : "bg-white text-gray-700 hover:bg-gray-50 cursor-pointer"
                     }`}
                   >
                     <FaChevronLeft className="h-4 w-4" />
@@ -187,7 +226,7 @@ export default function WorkerListing() {
                         className={`px-3 py-1.5 border border-gray-300 text-sm font-medium ${
                           currentPage === pageNum
                             ? "bg-green-600 text-white"
-                            : "bg-white text-gray-700 hover:bg-gray-50"
+                            : "bg-white text-gray-700 hover:bg-gray-50 cursor-pointer"
                         }`}
                       >
                         {pageNum}
@@ -200,7 +239,7 @@ export default function WorkerListing() {
                     className={`px-3 py-1.5 rounded-r-md border border-gray-300 text-sm font-medium ${
                       currentPage === totalPages
                         ? "bg-gray-100 text-gray-400"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        : "bg-white text-gray-700 hover:bg-gray-50 cursor-pointer"
                     }`}
                   >
                     <FaChevronRight className="h-4 w-4" />
@@ -211,6 +250,21 @@ export default function WorkerListing() {
           </>
         )}
       </div>
+
+      {/* Hire Worker Popup */}
+      <Popup isOpen={isHirePopupOpen} onClose={handleHirePopupToggle}>
+        {selectedWorker && (
+          <HireWorker
+            worker={selectedWorker}
+            onClose={handleHirePopupToggle}
+            onHireSuccess={() => {
+              setShouldRefresh(prev => !prev);
+              alert("Worker hired successfully!");
+              handleHirePopupToggle();
+            }}
+          />
+        )}
+      </Popup>
     </div>
   );
 }
